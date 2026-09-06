@@ -9,9 +9,6 @@ webhook:
   # Endpoint that receives POST requests.
   url: ""
 
-  # Optional Bearer token.
-  secret: ""
-
   # HTTP request timeout in seconds.
   timeout: 5
 

@@ -5,9 +5,10 @@ from .client import WebhookClient
 
 
 class WebhookDispatcher:
-    def __init__(self, plugin, config) -> None:
+    def __init__(self, plugin, config, secret) -> None:
         self.plugin = plugin
         self.config = config
+        self.secret = secret
         self.client = WebhookClient(plugin.logger)
 
     def dispatch(self, event: str, data: dict) -> None:
@@ -42,7 +43,7 @@ class WebhookDispatcher:
 
         Thread(
             target=self._send,
-            args=(url, payload, secret, timeout),
+            args=(url, payload, timeout),
             daemon=True,
             name="ServerBridge-Webhook",
         ).start()
@@ -51,12 +52,11 @@ class WebhookDispatcher:
         self,
         url: str,
         payload: dict,
-        secret: str,
         timeout: float,
     ) -> None:
         self.client.send(
             url=url,
             payload=payload,
-            secret=secret,
+            secret=self.secret.get(),
             timeout=timeout,
         )
