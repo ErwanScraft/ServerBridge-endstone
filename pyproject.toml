@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "endstone-serverbridge"
+version = "0.1.0"
+description = "Integration bridge between Endstone servers and external applications"
+authors = [
+    { name = "ErwanScraft" }
+]
+dependencies = [
+    "PyYAML>=6.0"
+]
+
+[project.entry-points."endstone"]
+serverbridge = "serverbridge:ServerBridgePlugin"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/serverbridge"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"resources/config.yml" = "serverbridge/config.yml"

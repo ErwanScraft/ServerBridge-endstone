@@ -1,0 +1,21 @@
+# ==================================================
+# ServerBridge Configuration
+# ==================================================
+
+webhook:
+  # Enable or disable outbound webhook events.
+  enabled: false
+
+  # Endpoint that receives POST requests.
+  url: ""
+
+  # Optional Bearer token.
+  secret: ""
+
+  # HTTP request timeout in seconds.
+  timeout: 5
+
+  events:
+    player.join: true
+    player.first_join: true
+    player.leave: true
