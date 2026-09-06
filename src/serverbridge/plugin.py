@@ -1,6 +1,7 @@
 from endstone.plugin import Plugin
 
 from .config import ServerBridgeConfig
+from .events import PlayerEvents
 from .webhook import WebhookDispatcher
 
 
@@ -18,5 +19,9 @@ class ServerBridgePlugin(Plugin):
             self,
             self._config,
         )
+
+        self.webhook = self._webhook
+
+        self.register_events(PlayerEvents(self))
 
         self.logger.info("ServerBridge enabled!")
