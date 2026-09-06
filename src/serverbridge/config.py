@@ -14,3 +14,18 @@ class ServerBridgeConfig:
 
     def get_webhook(self) -> dict:
         return self._data.get("webhook", {})
+
+    def get_webhook_event(self, event: str) -> dict:
+        events = self.get_webhook().get("events", {})
+        event_config = events.get(event, {})
+
+        if isinstance(event_config, bool):
+            return {
+                "enabled": event_config,
+                "message": "",
+            }
+
+        if not isinstance(event_config, dict):
+            return {}
+
+        return event_config

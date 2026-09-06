@@ -13,6 +13,14 @@ webhook:
   timeout: 5
 
   events:
-    player.join: true
-    player.first_join: true
-    player.leave: true
+      player.join:
+        enabled: true
+        message: "🟢 {player} joined the server!"
+    
+      player.first_join:
+        enabled: true
+        message: "🎉 {player}! This is their first join!"
+    
+      player.leave:
+        enabled: true
+        message: "🔴 {player} left the server!"

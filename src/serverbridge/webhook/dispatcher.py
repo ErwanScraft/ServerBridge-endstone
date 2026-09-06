@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 from threading import Thread
 
+from ..formatter import MessageFormatter
 from .client import WebhookClient
 
 
@@ -17,9 +18,9 @@ class WebhookDispatcher:
         if not webhook.get("enabled", False):
             return
 
-        events = webhook.get("events", {})
+        event_config = self.config.get_webhook_event(event)
 
-        if not events.get(event, False):
+        if not event_config.get("enabled", False):
             return
 
         url = str(webhook.get("url", "")).strip()
@@ -27,14 +28,20 @@ class WebhookDispatcher:
         if not url:
             return
 
+        template = str(event_config.get("message", ""))
+
+        message = MessageFormatter.format(
+            template,
+            data,
+        )
+
         payload = {
             "version": 1,
             "event": event,
             "timestamp": datetime.now(timezone.utc).isoformat(),
+            "message": message,
             **data,
         }
-
-        secret = str(webhook.get("secret", "")).strip()
 
         try:
             timeout = float(webhook.get("timeout", 5))
