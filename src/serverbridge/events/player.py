@@ -1,12 +1,11 @@
-from endstone.event import PlayerJoinEvent, PlayerQuitEvent
-from endstone.plugin import EventPriority, event_handler
+from endstone.event import PlayerJoinEvent, PlayerQuitEvent, event_handler
 
 
 class PlayerEvents:
     def __init__(self, plugin) -> None:
         self.plugin = plugin
 
-    @event_handler(PlayerJoinEvent, EventPriority.NORMAL)
+    @event_handler
     def on_player_join(self, event: PlayerJoinEvent) -> None:
         player = event.player
 
@@ -26,8 +25,8 @@ class PlayerEvents:
                 {"player": player_data},
             )
 
-    @event_handler(PlayerQuitEvent, EventPriority.NORMAL)
-    def on_player_leave(self, event: PlayerQuitEvent) -> None:
+    @event_handler
+    def on_player_quit(self, event: PlayerQuitEvent) -> None:
         player = event.player
 
         self.plugin.webhook.dispatch(
