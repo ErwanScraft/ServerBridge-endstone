@@ -2,6 +2,7 @@ from endstone.plugin import Plugin
 
 from .config import ServerBridgeConfig
 from .events import PlayerEvents
+from .player_data import PlayerData
 from .webhook import WebhookDispatcher
 
 
@@ -14,6 +15,10 @@ class ServerBridgePlugin(Plugin):
 
         self._config = ServerBridgeConfig(self)
         self._config.load()
+
+        self._player_data = PlayerData(self)
+        self._player_data.load()
+        self.player_data = self._player_data
 
         self._webhook = WebhookDispatcher(
             self,
