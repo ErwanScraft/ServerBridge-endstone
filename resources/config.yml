@@ -51,6 +51,21 @@ inbound:
 
     # Allow applications to execute commands.
     command: false
+  
+  chat:
+    # Format chat yang dikirim ke Minecraft.
+    #
+    # Available placeholders:
+    # {sender}  - Nama pengirim
+    # {message} - Isi pesan
+    format: "[ {sender} ] : {message}"
+
+    # Response yang dikembalikan ke aplikasi.
+    #
+    # Available placeholders:
+    # {sender}  - Nama pengirim
+    # {message} - Isi pesan
+    response: "Pesan dari {sender} berhasil dikirim ke server."
 
   command:
     # Only commands listed here can be executed remotely.

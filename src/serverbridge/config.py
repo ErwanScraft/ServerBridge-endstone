@@ -32,3 +32,6 @@ class ServerBridgeConfig:
         
     def get_inbound(self) -> dict:
         return self._data.get("inbound", {})
+    
+    def get_inbound_chat(self) -> dict:
+        return self._data.get("inbound", {}).get("chat", {})

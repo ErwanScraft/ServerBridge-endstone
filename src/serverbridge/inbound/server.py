@@ -166,35 +166,59 @@ class InboundServer:
         self.thread = None
 
     def handle_chat(self, data: dict) -> dict:
-        inbound = self.config.get_inbound()
-        actions = inbound.get("actions", {})
-
-        if not actions.get("chat", True):
+        if not self.config.get_inbound().get("actions", {}).get("chat", False):
             return {
                 "success": False,
-                "action": "chat",
-                "error": "Chat action is disabled",
+                "error": "Action chat tidak diaktifkan."
             }
-
+    
+        sender = str(data.get("sender", "")).strip()
         message = str(data.get("message", "")).strip()
-
+    
+        if not sender:
+            return {
+                "success": False,
+                "error": "Sender tidak boleh kosong."
+            }
+    
         if not message:
             return {
                 "success": False,
-                "action": "chat",
-                "error": "Message is required",
+                "error": "Message tidak boleh kosong."
             }
-
+    
+        chat_config = self.config.get_inbound_chat()
+    
+        chat_format = chat_config.get(
+            "format",
+            "[ {sender} ] : {message}"
+        )
+    
+        response_format = chat_config.get(
+            "response",
+            "Pesan dari {sender} berhasil dikirim ke server."
+        )
+    
+        formatted_message = str(chat_format).format(
+            sender=sender,
+            message=message
+        )
+    
+        response_message = str(response_format).format(
+            sender=sender,
+            message=message
+        )
+    
         self.plugin.server.scheduler.run_task(
             self.plugin,
             lambda: self.plugin.server.broadcast_message(
-                message
+                formatted_message
             )
         )
-
+    
         return {
             "success": True,
-            "action": "chat",
+            "message": response_message
         }
 
     def handle_command(self, data: dict) -> dict:
