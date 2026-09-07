@@ -186,6 +186,7 @@ class InboundServer:
             }
 
         self.plugin.server.scheduler.run_task(
+            self.plugin,
             lambda: self.plugin.server.broadcast_message(
                 message
             )
@@ -227,6 +228,7 @@ class InboundServer:
             }
 
         self.plugin.server.scheduler.run_task(
+            self.plugin,
             lambda: self.plugin.server.dispatch_command(
                 command
             )
