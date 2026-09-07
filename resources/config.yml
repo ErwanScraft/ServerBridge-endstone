@@ -24,3 +24,7 @@ webhook:
       player.leave:
         enabled: true
         message: "🔴 {player} left the server!"
+      
+      player.die:
+        enabled: true
+        message: "💀 {player} died because of {death_cause}!"

@@ -1,5 +1,4 @@
-from endstone.event import PlayerJoinEvent, PlayerQuitEvent, event_handler
-
+from endstone.event import PlayerDeathEvent, PlayerJoinEvent, PlayerQuitEvent, event_handler
 
 class PlayerEvents:
     def __init__(self, plugin) -> None:
@@ -36,5 +35,23 @@ class PlayerEvents:
                     "name": player.name,
                     "uuid": str(player.unique_id),
                 }
+            },
+        )
+    
+    @event_handler
+    def on_player_death(self, event: PlayerDeathEvent) -> None:
+        player = event.player
+        damage_source = event.damage_source
+
+        self.plugin.webhook.dispatch(
+            "player.die",
+            {
+                "player": {
+                    "name": player.name,
+                    "uuid": str(player.unique_id),
+                },
+                "death": {
+                    "cause": damage_source.type,
+                },
             },
         )
