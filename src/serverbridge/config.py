@@ -29,3 +29,6 @@ class ServerBridgeConfig:
             return {}
 
         return event_config
+        
+    def get_inbound(self) -> dict:
+        return self._data.get("inbound", {})

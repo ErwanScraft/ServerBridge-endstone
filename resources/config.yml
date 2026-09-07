@@ -32,3 +32,28 @@ webhook:
       player.chat:
         enabled: true
         message: "💬 {player}: {message}"
+
+inbound:
+  # Enable or disable the inbound API.
+  enabled: false
+
+  # Address where the API listens.
+  # Use 127.0.0.1 when the application runs on the same machine.
+  # Use 0.0.0.0 when the application connects remotely.
+  host: "127.0.0.1"
+
+  # Inbound API port.
+  port: 8765
+
+  actions:
+    # Allow applications to send chat messages to the server.
+    chat: true
+
+    # Allow applications to execute commands.
+    command: false
+
+  command:
+    # Only commands listed here can be executed remotely.
+    allowed:
+      - say
+      - tell

@@ -4,6 +4,7 @@ from .config import ServerBridgeConfig
 from .events import PlayerEvents
 from .player_data import PlayerData
 from .webhook import WebhookDispatcher
+from .inbound import InboundServer
 from .secret import SecretManager
 
 class ServerBridgePlugin(Plugin):
@@ -30,7 +31,20 @@ class ServerBridgePlugin(Plugin):
             self._secret,
         )
         self.webhook = self._webhook
+        
+        self._inbound = InboundServer(
+            self,
+            self._config,
+        )
+        self.inbound = self._inbound
+        self.inbound.start()
     
         self.register_events(PlayerEvents(self))
     
         self.logger.info("ServerBridge enabled!")
+    
+    def on_disable(self) -> None:
+        if hasattr(self, "inbound"):
+            self.inbound.stop()
+
+        self.logger.info("ServerBridge disabled!")
