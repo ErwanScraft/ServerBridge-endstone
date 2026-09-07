@@ -28,3 +28,7 @@ webhook:
       player.die:
         enabled: true
         message: "💀 {player} died because of {death_cause}!"
+      
+      player.chat:
+        enabled: true
+        message: "💬 {player}: {message}"

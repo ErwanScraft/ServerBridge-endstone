@@ -1,4 +1,10 @@
-from endstone.event import PlayerDeathEvent, PlayerJoinEvent, PlayerQuitEvent, event_handler
+from endstone.event import (
+    PlayerChatEvent,
+    PlayerDeathEvent,
+    PlayerJoinEvent,
+    PlayerQuitEvent,
+    event_handler,
+)
 
 class PlayerEvents:
     def __init__(self, plugin) -> None:
@@ -52,6 +58,26 @@ class PlayerEvents:
                 },
                 "death": {
                     "cause": damage_source.type,
+                },
+            },
+        )
+    
+    @event_handler
+    def on_player_chat(self, event: PlayerChatEvent) -> None:
+        if event.message.startswith("/"):
+            return
+    
+        player = event.player
+    
+        self.plugin.webhook.dispatch(
+            "player.chat",
+            {
+                "player": {
+                    "name": player.name,
+                    "uuid": str(player.unique_id),
+                },
+                "chat": {
+                    "message": event.message,
                 },
             },
         )

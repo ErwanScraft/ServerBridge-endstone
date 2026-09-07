@@ -7,6 +7,7 @@ class MessageFormatter:
             "{player}": str(player.get("name", "")),
             "{uuid}": str(player.get("uuid", "")),
             "{death_cause}": str(data.get("death", {}).get("cause", "")),
+            "{message}": str(data.get("chat", {}).get("message", "")),
         }
 
         for placeholder, value in replacements.items():
